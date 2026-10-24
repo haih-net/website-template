@@ -25,7 +25,7 @@ Restart the server after environment changes. Values without the `VITE_` prefix 
 
 Chats are stored in SQLite through Knex: `ChatDialogue` holds dialogues, `ChatMessage` holds messages and indexed metadata, and `ChatSetting` holds the automatically generated HMAC-SHA256 signing key. Backups and migrations must preserve the database together with the key. Tokens do not expire; replacing the key revokes them.
 
-The server accepts messages up to 16000 characters. Context uses completed question/answer pairs, up to 39 messages including the new question and 64000 characters. Full history remains in the database. Tool results from the current turn are appended separately and are not covered by the overall context budget.
+The server accepts messages up to 16000 characters. Context uses all completed successful question/answer pairs and the new question, without application-level limits on message count or character count. Full history remains in the database. Tool call and result records are excluded from conversation context.
 
 Each process allows up to eight concurrent requests with a 120-second timeout. Each chat permits one active request (409 for a concurrent submission). This is a concurrency limit, not a user quota. Guest token issuance is public: signatures isolate chats but do not themselves provide bot protection.
 
