@@ -7,6 +7,10 @@ export const DocumentationPage: React.FC = () => (
     <h1 tabIndex={-1}>Документация</h1>
     <p>Устройство сайта, доступные возможности и ограничения.</p>
     <h2>
+      <Link to="/docs/transcription">Транскрибация аудио</Link>
+    </h2>
+    <p>Распознавание файлов: проверка, API, доступ и ограничения.</p>
+    <h2>
       <Link to="/docs/video-calls">Видеозвонки</Link>
     </h2>
     <p>

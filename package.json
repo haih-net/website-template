@@ -41,7 +41,9 @@
     "e2e:report": "playwright show-report",
     "db:migrate": "node scripts/database.mjs latest",
     "db:migrations": "node scripts/database.mjs list",
-    "db:make": "node scripts/database.mjs make"
+    "db:make": "node scripts/database.mjs make",
+    "transcribe:audio": "tsx scripts/transcribe-audio.ts",
+    "transcribe:mcp": "tsx scripts/transcription-mcp.ts"
   },
   "dependencies": {
     "@apollo/client": "^4.2.0",
@@ -54,6 +56,7 @@
     "@mdxeditor/editor": "~4.0.1",
     "@mdxeditor/gurx": "~1.2.4",
     "@mediapipe/tasks-vision": "1.2.3",
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@pothos/core": "^4.15.1",
     "@pothos/plugin-scope-auth": "^4.2.1",
     "@pothos/plugin-simple-objects": "^4.1.4",
@@ -106,7 +109,8 @@
     "unist-util-visit": "^5.1.0",
     "vite": "8.3.1",
     "ws": "^8.23.0",
-    "yup": "1.7.1"
+    "yup": "1.7.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

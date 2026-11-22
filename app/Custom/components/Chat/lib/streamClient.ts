@@ -114,27 +114,37 @@ export const CHAT_TOKEN_STORAGE_KEY = isCodexChat
   ? 'codex_chat_access_token'
   : 'chat_access_token'
 
-const getChatToken = async (signal?: AbortSignal): Promise<string> => {
-  const existing = localStorage.getItem(CHAT_TOKEN_STORAGE_KEY)
+export const getCodexChatToken = async (
+  signal?: AbortSignal,
+): Promise<string> => {
+  const existing = localStorage.getItem('codex_chat_access_token')
   if (existing) {
     return existing
   }
+  const response = await fetch('/api/codex/token', { method: 'POST', signal })
+  if (!response.ok) {
+    throw new Error(await readChatError(response))
+  }
+  const result: unknown = await response.json()
+  if (
+    !result ||
+    typeof result !== 'object' ||
+    !('token' in result) ||
+    typeof result.token !== 'string'
+  ) {
+    throw new Error('Сервер не вернул токен чата')
+  }
+  localStorage.setItem('codex_chat_access_token', result.token)
+  return result.token
+}
+
+export const getChatToken = async (signal?: AbortSignal): Promise<string> => {
   if (isCodexChat) {
-    const response = await fetch('/api/codex/token', { method: 'POST', signal })
-    if (!response.ok) {
-      throw new Error(await readChatError(response))
-    }
-    const result: unknown = await response.json()
-    if (
-      !result ||
-      typeof result !== 'object' ||
-      !('token' in result) ||
-      typeof result.token !== 'string'
-    ) {
-      throw new Error('Сервер не вернул токен чата')
-    }
-    localStorage.setItem(CHAT_TOKEN_STORAGE_KEY, result.token)
-    return result.token
+    return getCodexChatToken(signal)
+  }
+  const existing = localStorage.getItem(CHAT_TOKEN_STORAGE_KEY)
+  if (existing) {
+    return existing
   }
   const result = await initializeApollo({ withWs: false }).mutate({
     mutation: CreateChatTokenDocument,

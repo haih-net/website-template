@@ -1,0 +1,12 @@
+mutation transcribeAudio($data: TranscribeAudioInput!) {
+  transcribeAudio(data: $data) {
+    ...AudioTranscriptionNoNesting
+  }
+}
+
+fragment AudioTranscriptionNoNesting on AudioTranscription {
+  text
+  language
+  durationSeconds
+  completed
+}

@@ -1,3 +1,5 @@
+import { voiceTools } from '../voice/instructions'
+import { threadHistory } from './helpers/threadHistory'
 import { randomUUID } from 'node:crypto'
 import { once } from 'node:events'
 import { readSessionThread, saveSessionThread } from './helpers/sessionThread'
@@ -7,13 +9,37 @@ import { issueSessionToken, verifySessionToken } from './helpers/sessionToken'
 import { createChatResponse } from '../chat/http/response'
 import { logDevError } from '../errorLogging'
 
+export const activeCodexSessions: Set<string> = new Set()
+
 export function setupCodexChat(app: Express): void {
-  const active = new Set<string>()
+  const active = activeCodexSessions
   const router = express.Router()
   router.use(express.json({ limit: '256kb' }))
   router.use((_req, res, next) => {
     res.setHeader('Cache-Control', 'no-store, no-transform')
     next()
+  })
+  router.get('/', async (req, res) => {
+    const sessionId = verifySessionToken(req.get('dialog-token'))
+    if (!sessionId) {
+      res.status(401).json({ error: 'Недействительный токен чата' })
+      return
+    }
+    let client: CodexConnection | undefined
+    try {
+      const threadId = await readSessionThread(sessionId)
+      if (!threadId) {
+        res.json({ messages: [] })
+        return
+      }
+      client = await connectCodex(() => threadId)
+      res.json({ messages: await threadHistory(client, threadId) })
+    } catch (error) {
+      logDevError('codex.history', error)
+      res.status(502).json({ error: 'Не удалось загрузить историю' })
+    } finally {
+      client?.close()
+    }
   })
   router.post('/token', (_req, res) => {
     try {
@@ -61,7 +87,16 @@ export function setupCodexChat(app: Express): void {
     let turnId: string | undefined
     let completed = false
     try {
-      client = await connectCodex()
+      client = await connectCodex(() => threadId)
+      client.onToolCall = async () => ({
+        success: false,
+        contentItems: [
+          {
+            type: 'inputText',
+            text: 'В текущем текстовом интерфейсе голосовые инструменты отключены. Продолжай отвечать текстом.',
+          },
+        ],
+      })
       controller.signal.throwIfAborted()
       threadId = (await readSessionThread(sessionId)) ?? undefined
       if (threadId) {
@@ -75,6 +110,7 @@ export function setupCodexChat(app: Express): void {
             sandbox: 'read-only',
             baseInstructions: '',
             developerInstructions: '',
+            dynamicTools: voiceTools,
             ephemeral: false,
           },
         )

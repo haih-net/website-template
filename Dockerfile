@@ -8,7 +8,7 @@ RUN apt-get update \
 
 FROM dependencies AS development
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends openssl \
+    && apt-get install -y --no-install-recommends openssl ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 COPY . .
 EXPOSE 3000
@@ -25,7 +25,7 @@ ENV NODE_ENV=production
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends python3 make g++ \
+    && apt-get install -y --no-install-recommends python3 make g++ ffmpeg \
     && npm ci --omit=dev \
     && npm cache clean --force \
     && apt-get purge -y --auto-remove python3 make g++ \

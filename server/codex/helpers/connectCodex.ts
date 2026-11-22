@@ -21,12 +21,18 @@ export function codexSecret(): string {
 
 export interface CodexConnection {
   request<T>(method: string, params: object): Promise<T>
+  onToolCall?: (params: CodexEvent['params']) => Promise<{
+    success: boolean
+    contentItems: { type: 'inputText'; text: string }[]
+  }>
   onEvent?: (event: CodexEvent) => void
   onClose?: (error: Error) => void
   close(): void
 }
 
-export async function connectCodex(): Promise<CodexConnection> {
+export async function connectCodex(
+  getThreadId: () => string | undefined = () => undefined,
+): Promise<CodexConnection> {
   const url = process.env.CODEX_SERVER_URL
   if (!url) {
     throw new Error('Не настроен адрес сервера Codex')
@@ -80,12 +86,85 @@ export async function connectCodex(): Promise<CodexConnection> {
   ws.on('message', (raw) => {
     try {
       const message = JSON.parse(raw.toString()) as CodexEvent & {
-        id?: number
+        id?: number | string
         result?: unknown
         error?: { message: string }
       }
 
-      if (message.id !== undefined) {
+      // Встречные запросы имеют собственное пространство id: сначала проверяем method.
+      if (message.id !== undefined && message.method) {
+        let response:
+          { result: unknown } | { error: { code: number; message: string } }
+
+        const threadId = getThreadId()
+        if (!threadId || message.params?.threadId !== threadId) {
+          response = {
+            error: {
+              code: -32602,
+              message: 'Запрос не принадлежит активной сессии чата',
+            },
+          }
+        } else if (message.method === 'currentTime/read') {
+          response = {
+            result: { currentTimeAt: Math.floor(Date.now() / 1000) },
+          }
+        } else if (message.method === 'item/tool/call' && client.onToolCall) {
+          void client
+            .onToolCall(message.params)
+            .then((result) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ id: message.id, result }))
+              }
+            })
+            .catch(() => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(
+                  JSON.stringify({
+                    id: message.id,
+                    result: {
+                      success: false,
+                      contentItems: [
+                        {
+                          type: 'inputText',
+                          text: 'Не удалось выполнить инструмент',
+                        },
+                      ],
+                    },
+                  }),
+                )
+              }
+            })
+          return
+        } else if (message.method === 'item/tool/call') {
+          response = {
+            result: {
+              success: false,
+              contentItems: [
+                {
+                  type: 'inputText',
+                  text: 'Запрошенный клиентский инструмент не зарегистрирован в этом чате.',
+                },
+              ],
+            },
+          }
+        } else if (
+          message.method === 'item/commandExecution/requestApproval' ||
+          message.method === 'item/fileChange/requestApproval'
+        ) {
+          response = { result: { decision: 'decline' } }
+        } else {
+          response = {
+            error: {
+              code: -32601,
+              message: `Метод клиента не поддерживается: ${message.method}`,
+            },
+          }
+        }
+        ws.send(JSON.stringify({ id: message.id, ...response }))
+      } else if (
+        typeof message.id === 'number' &&
+        ('result' in message || 'error' in message)
+      ) {
         const call = pending.get(message.id)
         if (call) {
           pending.delete(message.id)
@@ -95,18 +174,8 @@ export async function connectCodex(): Promise<CodexConnection> {
           } else {
             call.resolve(message.result)
           }
-        } else if (message.method) {
-          ws.send(
-            JSON.stringify({
-              id: message.id,
-              error: {
-                code: -32601,
-                message: 'Инструменты отключены в этом чате',
-              },
-            }),
-          )
         }
-      } else if (message.method) {
+      } else if (message.id === undefined && message.method) {
         client.onEvent?.(message)
       }
     } catch {
@@ -129,6 +198,7 @@ export async function connectCodex(): Promise<CodexConnection> {
       ws.once('error', reject)
     })
     await client.request('initialize', {
+      capabilities: { experimentalApi: true },
       clientInfo: {
         name: 'website-chat',
         title: 'Чат сайта',

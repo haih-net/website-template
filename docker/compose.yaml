@@ -10,6 +10,7 @@ services:
     init: true
     volumes:
       - ${CODEX_HOME_PATH:-./codex/home/default}:/codex/home
+      - ./codex/home/default:/codex/dictation:ro
       - ../shared:/app/shared
       - ../uploads:/app/uploads
       - ../storage:/app/storage
@@ -33,6 +34,10 @@ services:
       CODEX_TRANSPORT_TOKEN_FILE: /codex/home/transport-token
       CODEX_SESSION_DIRECTORY: /codex/home/website-sessions
       VITE_CHAT_AGENT: ${VITE_CHAT_AGENT:-legacy}
+      VOICE_MODE: ${VOICE_MODE:-off}
+      TRANSCRIBE_AUTH_FILE: /codex/dictation/auth.json
+      SPEECH_MODEL: ${SPEECH_MODEL:-qwen/qwen3-tts-1.7b}
+      SPEECH_VOICE: ${SPEECH_VOICE:-ryan}
       METRICS_HOST: 0.0.0.0
       METRICS_PORT: '9464'
   codex:

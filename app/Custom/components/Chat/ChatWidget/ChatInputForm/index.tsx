@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { ChatForm, ChatTextarea, SendButton, StopButton } from '../styles'
 import { useChatContext } from '../context'
 
-export const ChatInputForm: React.FC = () => {
+export const ChatInputForm: React.FC<{ controls?: React.ReactNode }> = ({
+  controls,
+}) => {
   const {
     placeholder,
     isLoading,
@@ -92,6 +94,7 @@ export const ChatInputForm: React.FC = () => {
         disabled={isLoading}
         rows={1}
       />
+      {controls}
       {isLoading ? (
         <StopButton
           aria-label="Остановить ответ"

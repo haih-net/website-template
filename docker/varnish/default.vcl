@@ -6,6 +6,10 @@ backend default {
 }
 
 sub vcl_recv {
+    # Voice transports require a tunnel for the upgraded connection.
+    if (req.http.Upgrade ~ "(?i)websocket" && req.url ~ "^/api/(voice/messages|codex/voice)([?]|$)") {
+        return (pipe);
+    }
     # API health and application responses must not be served from cache.
     if (req.url ~ "^/api([/?]|$)") {
         return (pass);
@@ -44,4 +48,18 @@ sub vcl_deliver {
         set resp.http.X-Cache = "MISS";
     }
     set resp.http.X-Cache-TTL = obj.ttl;
+}
+
+sub vcl_pipe {
+    if (req.http.Upgrade) {
+        set bereq.http.Upgrade = req.http.Upgrade;
+        set bereq.http.Connection = "upgrade";
+    }
+}
+
+sub vcl_backend_fetch {
+    # File dictation can take up to 330 seconds without response bytes.
+    if (bereq.url ~ "^/api([/?]|$)") {
+        set bereq.first_byte_timeout = 360s;
+    }
 }

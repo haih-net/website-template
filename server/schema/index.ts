@@ -1,3 +1,4 @@
+import './types/AudioTranscription'
 import { builder } from './builder'
 import './statistics'
 import './types/PageError'

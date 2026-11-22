@@ -10,11 +10,16 @@ import React, {
 import { ChatMessage, CHAT_SESSION_STORAGE_KEY } from '../interfaces'
 import { useSnackbar } from 'app/Custom/hooks/useSnackbar'
 import type { CodexStreamEvent } from '../../lib/codexEvents'
-import { sendMessageStream } from '../../lib/streamClient'
+import {
+  sendMessageStream,
+  isCodexChat,
+  CHAT_TOKEN_STORAGE_KEY,
+} from '../../lib/streamClient'
 import { recordStatistics } from 'app/components/Statistics'
 import { useLocation } from 'react-router'
 
 export type ChatContextValue = {
+  upsertVoiceMessage: (id: string, text: string, isUser: boolean) => void
   technicalEvents: CodexStreamEvent[]
   messages: ChatMessage[]
   isLoading: boolean
@@ -68,6 +73,56 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [showTypingIndicator, setShowTypingIndicator] = useState(false)
   const [initialMessage, initialMessageSetter] = useState('')
+
+  const upsertVoiceMessage = useCallback(
+    (id: string, text: string, isUser: boolean): void => {
+      setMessages((previous) =>
+        previous.some((message) => message.id === id)
+          ? previous.map((message) =>
+              message.id === id ? { ...message, text } : message,
+            )
+          : [...previous, { id, text, isUser }],
+      )
+    },
+    [],
+  )
+
+  useEffect(() => {
+    if (!isCodexChat) {
+      return
+    }
+    let token: string | null = null
+    try {
+      token = localStorage.getItem(CHAT_TOKEN_STORAGE_KEY)
+    } catch {
+      return
+    }
+    if (!token) {
+      return
+    }
+    const controller = new AbortController()
+    void fetch('/api/codex', {
+      headers: { 'dialog-token': token },
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error('Не удалось загрузить историю')
+        }
+        const result = (await response.json()) as { messages?: ChatMessage[] }
+        if (Array.isArray(result.messages)) {
+          setMessages((previous) =>
+            previous.length ? previous : (result.messages ?? []),
+          )
+        }
+      })
+      .catch((error: unknown) => {
+        if (!controller.signal.aborted) {
+          console.error('Не удалось загрузить историю чата', error)
+        }
+      })
+    return () => controller.abort()
+  }, [])
 
   const sessionIdRef = useRef<string | null>(null)
 
@@ -324,6 +379,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
     () => ({
       messages,
       technicalEvents,
+      upsertVoiceMessage,
       isLoading,
       showTypingIndicator,
       isOpen,
@@ -344,6 +400,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({
     [
       messages,
       technicalEvents,
+      upsertVoiceMessage,
       isLoading,
       showTypingIndicator,
       isOpen,

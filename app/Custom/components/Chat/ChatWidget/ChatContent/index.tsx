@@ -10,7 +10,15 @@ import { ChatInputForm } from '../ChatInputForm'
 import { useChatContext } from '../context'
 import { ChatMessageMemo } from '../ChatMessage'
 
-export const ChatContent: React.FC = () => {
+interface ChatContentProps {
+  controls?: React.ReactNode
+  input?: React.ReactNode
+}
+
+export const ChatContent: React.FC<ChatContentProps> = ({
+  controls,
+  input,
+}) => {
   const { messages, welcomeTitle, welcomeText, showTypingIndicator } =
     useChatContext()
 
@@ -145,7 +153,7 @@ export const ChatContent: React.FC = () => {
       )}
 
       <ChatInputContainer data-testid="chat-footer">
-        <ChatInputForm />
+        {input ?? <ChatInputForm controls={controls} />}
       </ChatInputContainer>
     </ChatContentContainer>
   )

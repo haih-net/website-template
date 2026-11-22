@@ -1,3 +1,7 @@
+import { setupVoice } from './voice'
+import { setupCodexRealtime } from './codex/realtime'
+import { activeCodexSessions } from './codex'
+import { voiceMode } from './voice/config'
 import './env'
 import { setupCallSignaling } from './schema/types/CallRoom/helpers/setupCallSignaling'
 import { getDatabase, migrateDatabase } from './database'
@@ -27,6 +31,8 @@ const dev = process.env.NODE_ENV === 'development'
 let stopGraphql: (() => Promise<void>) | null = null
 let vite: ViteDevServer | null = null
 let stopCalls: (() => void) | null = null
+let stopVoice: (() => void) | undefined
+let stopRealtime: (() => void) | undefined
 let stopping = false
 let metricsServer: ReturnType<typeof startMetricsServer> = null
 
@@ -45,6 +51,8 @@ function setupShutdown(server: ReturnType<typeof createServer>) {
     try {
       metricsServer?.close()
       stopCalls?.()
+      stopVoice?.()
+      stopRealtime?.()
 
       if (stopGraphql) {
         await stopGraphql()
@@ -85,6 +93,10 @@ async function startServer() {
 
   const httpServer = createServer(app)
   stopCalls = setupCallSignaling(httpServer, db)
+  stopVoice = setupVoice(app, httpServer)
+  if (voiceMode() === 'realtime') {
+    stopRealtime = setupCodexRealtime(httpServer, activeCodexSessions)
+  }
 
   // GraphQL middleware
   stopGraphql = await setupGraphqlMiddleware(app, httpServer)

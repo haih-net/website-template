@@ -10,7 +10,9 @@
     ".react-router/types/**/*",
     ".storybook/**/*.ts",
     ".storybook/**/*.tsx",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "scripts/transcribe-audio.ts",
+    "scripts/transcription-mcp.ts"
   ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],

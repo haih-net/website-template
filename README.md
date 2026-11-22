@@ -10,60 +10,60 @@
 
 Сайт на русском языке. Все пользовательские тексты — интерфейс, пояснения, ошибки, сообщения валидации, подписи доступности, метаданные и документация на сайте — должны быть на русском. Новую документацию и изменения README писать на русском. Идентификаторы кода, имена API, названия технологий и технические обозначения сохраняются в оригинале. Сообщения коммитов пишутся на английском.
 
-**Build better software with AI — by starting from requirements, not frameworks.**
+**Создавайте более качественное ПО с ИИ, начиная с требований, а не с фреймворков.**
 
-HAIH Site is a public demonstration of requirement-driven development. Instead of adopting tools first and fitting problems to them, we begin with real needs and choose solutions that earn their place.
+HAIH Site — публичная демонстрация разработки на основе требований. Вместо того чтобы сначала выбирать инструменты, а затем подгонять под них задачи, мы начинаем с реальных потребностей и выбираем решения, необходимость которых обоснована.
 
-## Why This Matters
+## Почему это важно
 
-Most AI-assisted development starts with a technology stack and hopes for the best. HAIH flips this: every solution must justify itself through **purpose**, **capabilities**, **requirements**, and **evidence**.
+Разработка с помощью ИИ чаще всего начинается с выбора стека технологий и надежды на хороший результат. В HAIH порядок обратный: каждое решение должно быть обосновано через **назначение**, **возможности**, **требования** и **подтверждения**.
 
-The website you see is its own proof. Every architectural decision, every dependency, every line of code exists because a real need demanded it — and that need is documented.
+Сам сайт служит подтверждением этого подхода. Каждое архитектурное решение, каждая зависимость и каждая строка кода существуют потому, что этого потребовала реальная потребность, и эта потребность задокументирована.
 
-## What You Get
+## Что вы получаете
 
-- **Transparent decision-making** — See exactly why each technology was chosen
-- **Working demonstrations** — Not slides, not promises — running code you can verify
-- **Current architecture** — React 19, TypeScript, Vite 8, Docker, Traefik, Varnish
-- **Modern delivery** — SPA navigation, build-time rendering, code splitting, HTTP caching
+- **Прозрачность решений** — понятно, почему выбрана каждая технология
+- **Работающие демонстрации** — исполняемый код, который можно проверить, вместо слайдов и обещаний
+- **Актуальную архитектуру** — React 19, TypeScript, Vite 8, Docker, Traefik, Varnish
+- **Современную доставку контента** — SPA-навигацию, рендеринг при сборке, разделение кода и HTTP-кеширование
 
-## Tech Stack
+## Стек технологий
 
-| Layer         | Technology                  | Purpose                                   |
-| ------------- | --------------------------- | ----------------------------------------- |
-| **UI**        | React 19 + TypeScript       | Type-safe components with modern hooks    |
-| **Routing**   | React Router 8              | SPA navigation, code splitting, SSR-ready |
-| **Build**     | Vite 8                      | Fast HMR, optimized production bundles    |
-| **Server**    | Node.js 22 + Express + sirv | Static files, SSR and GraphQL             |
-| **Cache**     | Varnish 7                   | Edge caching with explicit policies       |
-| **Proxy**     | Traefik 3                   | TLS termination, routing, load balancing  |
-| **Container** | Docker Compose              | Reproducible environments                 |
+| Уровень             | Технология                  | Назначение                                                                         |
+| ------------------- | --------------------------- | ---------------------------------------------------------------------------------- |
+| **Интерфейс**       | React 19 + TypeScript       | Типобезопасные компоненты с современными хуками                                    |
+| **Маршрутизация**   | React Router 8              | SPA-навигация, разделение кода, готовность к SSR                                   |
+| **Сборка**          | Vite 8                      | Быстрое горячее обновление модулей (HMR), оптимизированные сборки для эксплуатации |
+| **Сервер**          | Node.js 22 + Express + sirv | Статические файлы, SSR и GraphQL                                                   |
+| **Кеш**             | Varnish 7                   | Кеширование на границе инфраструктуры с явно заданными правилами                   |
+| **Прокси**          | Traefik 3                   | Завершение TLS, маршрутизация, балансировка нагрузки                               |
+| **Контейнеризация** | Docker Compose              | Воспроизводимые окружения                                                          |
 
-## Static files in shared
+## Статические файлы в shared
 
-`shared/` is an untracked directory for static files (only `.gitkeep` is tracked).
-Do not place components, validation schemas, or other application source code there.
-Keep client code beside its owning component in `app/` and server code beside its
-owning entity in `server/`.
+`shared/` — каталог статических файлов, не отслеживаемый Git (отслеживается только `.gitkeep`).
+Не размещайте в нём компоненты, схемы валидации и другой исходный код приложения.
+Клиентский код храните рядом с компонентом, которому он принадлежит, в `app/`,
+а серверный — рядом с соответствующей сущностью в `server/`.
 
-## Quick Start
+## Быстрый старт
 
-Use Node.js 22.22.3 (the Docker image is pinned to this version).
+Используйте Node.js 22.22.3: эта версия закреплена в образе Docker.
 
 ```bash
-# Development (with hot reload)
+# Разработка с горячей перезагрузкой
 npm ci
 npm run dev
 # → http://127.0.0.1:3000
 
-# Production build
+# Сборка для эксплуатации
 npm run build
 npm start
 # → http://127.0.0.1:3000
 ```
 
-Build assets use the `assets` directory by default. Set `BUILD_ASSETS_DIR` in `.env`
-or when running the build to override it, for example:
+По умолчанию ресурсы сборки размещаются в каталоге `assets`. Чтобы изменить его,
+задайте `BUILD_ASSETS_DIR` в `.env` или при запуске сборки, например:
 
 ```bash
 BUILD_ASSETS_DIR=site-assets npm run build
@@ -74,36 +74,36 @@ BUILD_ASSETS_DIR=site-assets npm run build
 ```bash
 cd docker
 
-# Development: app, cache proxy and TLS entry point
+# Разработка: приложение, кеширующий прокси и точка входа TLS
 docker compose -f compose.yaml -f compose.dev.yaml up -d --build app varnish traefik
 # → http://127.0.0.1:8080 (Traefik HTTP)
-# → https://haih.localhost:8443 (Traefik HTTPS with HMR)
-# → http://127.0.0.1:8088 (Traefik Dashboard)
-# → http://127.0.0.1:3001 (App direct, also supports HMR)
+# → https://haih.localhost:8443 (Traefik HTTPS с HMR)
+# → http://127.0.0.1:8088 (панель управления Traefik)
+# → http://127.0.0.1:3001 (прямой доступ к приложению, также поддерживает HMR)
 
-# Production
+# Рабочее окружение
 docker compose -f compose.yaml -f compose.prod.yaml up -d
 # → http://127.0.0.1:80 (Traefik → Varnish → Node.js)
 # → https://127.0.0.1:443
 ```
 
-### Ports
+### Порты
 
-| Mode        | Service           | Default Port | Variable                 |
-| ----------- | ----------------- | ------------ | ------------------------ |
-| Local       | Vite/Node.js      | 3000         | `PORT`                   |
-| Docker dev  | Traefik HTTP      | 8080         | `SITE_PORT`              |
-| Docker dev  | Traefik HTTPS     | 8443         | `SITE_PORT_HTTPS`        |
-| Docker dev  | Traefik Dashboard | 8088         | `TRAEFIK_DASHBOARD_PORT` |
-| Docker dev  | App direct        | 3001         | `APP_PORT`               |
-| Docker prod | Traefik HTTP      | 80           | `SITE_PORT`              |
-| Docker prod | Traefik HTTPS     | 443          | `SITE_PORT_HTTPS`        |
+| Режим                | Сервис                     | Порт по умолчанию | Переменная               |
+| -------------------- | -------------------------- | ----------------- | ------------------------ |
+| Локальный            | Vite/Node.js               | 3000              | `PORT`                   |
+| Docker: разработка   | Traefik HTTP               | 8080              | `SITE_PORT`              |
+| Docker: разработка   | Traefik HTTPS              | 8443              | `SITE_PORT_HTTPS`        |
+| Docker: разработка   | Панель управления Traefik  | 8088              | `TRAEFIK_DASHBOARD_PORT` |
+| Docker: разработка   | Прямой доступ к приложению | 3001              | `APP_PORT`               |
+| Docker: эксплуатация | Traefik HTTP               | 80                | `SITE_PORT`              |
+| Docker: эксплуатация | Traefik HTTPS              | 443               | `SITE_PORT_HTTPS`        |
 
-Set `NETWORK_NAME` in `docker/.env` to an existing external Docker network. Compose reads that file when run from `docker/`; the app also receives it through `env_file`. The full stack requires the certificates and monitoring configuration/secrets described in the [monitoring runbook](docker/monitoring/README.md).
+В `docker/.env` задайте `NETWORK_NAME` равным имени существующей внешней сети Docker. Compose читает этот файл при запуске из `docker/`; приложение также получает его через `env_file`. Для полного стека нужны сертификаты, настройки и секреты мониторинга, описанные в [руководстве по мониторингу](docker/monitoring/README.md).
 
-### Local TLS certificates
+### Локальные TLS-сертификаты
 
-Before starting Traefik, place a certificate and key at `docker/traefik/certs/localhost.crt` and `localhost.key`. These files are ignored by Git. For a local self-signed certificate, run from the repository root:
+Перед запуском Traefik разместите сертификат и ключ в `docker/traefik/certs/localhost.crt` и `localhost.key`. Git игнорирует эти файлы. Чтобы создать локальный самоподписанный сертификат, выполните из корня репозитория:
 
 ```bash
 openssl req -x509 -newkey rsa:2048 -nodes \
@@ -114,137 +114,140 @@ openssl req -x509 -newkey rsa:2048 -nodes \
 chmod 600 docker/traefik/certs/localhost.key
 ```
 
-Accept the local certificate in your browser, or use a certificate issued by a locally trusted development CA. `haih.localhost` must resolve to loopback on the browser's machine.
+Подтвердите использование локального сертификата в браузере либо используйте сертификат, выданный локально доверенным центром сертификации для разработки. На машине с браузером `haih.localhost` должен разрешаться в адрес обратной петли.
 
-### Development ports and hot reload
+### Порты разработки и горячая перезагрузка
 
-The Node HTTP server listens on `PORT` (3000 by default). Vite runs in middleware mode and attaches its WebSocket server to that same listener at `/__vite_hmr`. The browser derives the WebSocket host, port and protocol from the page URL: HTTPS uses `wss://`, HTTP uses `ws://`. No separate HMR port or hardcoded domain is needed.
+HTTP-сервер Node слушает `PORT` (по умолчанию 3000). Vite работает как промежуточный обработчик и подключает свой WebSocket-сервер к тому же слушателю по пути `/__vite_hmr`. Браузер определяет хост, порт и протокол WebSocket по URL страницы: для HTTPS используется `wss://`, для HTTP — `ws://`. Отдельный порт HMR и жёстко заданный домен не нужны.
 
-`APP_PORT` changes only Docker's host HTTP port; keep the container's `PORT=3000` because the port mapping and proxy upstream use it. `SITE_PORT` and `SITE_PORT_HTTPS` set the external proxy ports. For development without Docker, `PORT=3002 npm run dev` serves both HTTP and HMR on port 3002.
+`APP_PORT` изменяет только HTTP-порт Docker на хосте; внутри контейнера оставляйте `PORT=3000`, поскольку этот порт используется в пробросе портов и адресе приложения для прокси. `SITE_PORT` и `SITE_PORT_HTTPS` задают внешние порты прокси. При разработке без Docker команда `PORT=3002 npm run dev` обслуживает HTTP и HMR на порту 3002.
 
-The development Compose override selects `traefik/dynamic/development/` and `varnish/development.vcl`. Traefik terminates TLS and sends `/__vite_hmr` directly to the app. Other requests go through Varnish in pass mode, with `X-Cache: PASS` and `Cache-Control: no-store`, so development output is not retained. The production VCL and routes remain separate. To experiment with development caching, explicitly select a different VCL and account for stale modules and HTML.
+Файл переопределений Compose для разработки выбирает `traefik/dynamic/development/` и `varnish/development.vcl`. Traefik завершает TLS и направляет `/__vite_hmr` прямо в приложение. Остальные запросы проходят через Varnish в режиме пропуска без кеширования, с `X-Cache: PASS` и `Cache-Control: no-store`, поэтому результаты разработки не сохраняются в кеше. VCL и маршруты рабочего окружения остаются отдельными. Для экспериментов с кешированием при разработке явно выберите другой VCL и учитывайте возможность устаревших модулей и HTML.
 
-React edits use HMR where supported. Server edits restart Node through `tsx watch` and can require a refresh. Restart the app after changing port configuration. Published development ports bind to loopback; remote access requires a tunnel or an explicitly configured proxy.
+Изменения React используют HMR там, где это поддерживается. Изменения серверного кода перезапускают Node через `tsx watch` и могут потребовать обновления страницы. После изменения настроек портов перезапустите приложение. Опубликованные порты разработки привязаны к адресу обратной петли; для удалённого доступа нужен туннель или явно настроенный прокси.
 
-Verified on 2026-10-06 in Chromium against `https://haih.localhost:8443`: TLS HTML delivery through Traefik and Varnish, a successful `wss://haih.localhost:8443/__vite_hmr` connection, and a temporary React edit appearing without a document reload. Restoring the source and refreshing also returned current content. The browser check accepted the self-signed certificate; it does not establish OS/browser certificate trust.
+Проверено 2026-10-06 в Chromium по адресу `https://haih.localhost:8443`: доставка HTML по TLS через Traefik и Varnish, успешное подключение к `wss://haih.localhost:8443/__vite_hmr` и отображение временного изменения React без перезагрузки документа. Восстановление исходного кода и обновление страницы также возвращали актуальное содержимое. При браузерной проверке самоподписанный сертификат был принят; это не подтверждает доверие к нему со стороны ОС или браузера.
 
-## Architecture Highlights
+## Основные особенности архитектуры
 
-**Request Flow (Production):**
-
-```
-Browser → Traefik → Varnish → Node.js → Static Assets / React Router SSR / API
-```
-
-**Request Flow (Docker Development):**
+**Путь запроса в рабочем окружении:**
 
 ```
-Browser → Traefik (TLS) → Varnish (pass) → Node.js + Vite Middleware
-Browser → Traefik (WSS /__vite_hmr) → Node.js + Vite WebSocket
+Браузер → Traefik → Varnish → Node.js → Статические ресурсы / React Router SSR / API
 ```
 
-Public routes listed in `react-router.config.ts` are prerendered during the build. The production Node server serves generated files with sirv and forwards remaining requests to React Router's server build. The current Varnish policy assigns seven days to matching asset extensions and one hour to other successful responses, while `/api` bypasses caching. Publication still needs an explicit cache refresh policy; these settings alone do not establish production readiness.
+**Путь запроса при разработке в Docker:**
 
-## Project Structure
+```
+Браузер → Traefik (TLS) → Varnish (пропуск без кеширования) → Node.js + промежуточный обработчик Vite
+Браузер → Traefik (WSS /__vite_hmr) → Node.js + WebSocket Vite
+```
+
+Публичные маршруты из `react-router.config.ts` предварительно рендерятся при сборке. Сервер Node в рабочем окружении отдаёт сгенерированные файлы через sirv и передаёт остальные запросы серверной сборке React Router. Текущая политика Varnish задаёт срок кеширования семь дней для ресурсов с подходящими расширениями и один час для остальных успешных ответов, а `/api` обходит кеш. Для публикации по-прежнему нужна явная политика обновления кеша; сами по себе эти настройки не подтверждают готовность к эксплуатации.
+
+## Структура проекта
 
 ```
 app/
-  pages/             # Page views, sections, data and colocated assets
-  routes/            # Route integration and metadata
-  components/Layout/ # Shared Header, main content, Footer and basic responsive CSS
-  root.tsx           # HTML document, shared layout integration, error boundary
+  pages/             # Представления страниц, разделы, данные и ресурсы рядом с ними
+  routes/            # Интеграция маршрутов и метаданные
+  components/Layout/ # Общие Header, основное содержимое, Footer и базовые адаптивные стили CSS
+  root.tsx           # HTML-документ, подключение общего макета, граница обработки ошибок
 server/
-  index.ts           # HTTP server: static delivery, React Router SSR and API (compiled to build/node/)
+  index.ts           # HTTP-сервер: статические файлы, React Router SSR и API (сборка в build/node/)
 docker/
-  compose.yaml       # Base Docker Compose configuration
-  compose.dev.yaml   # Development overrides
-  compose.prod.yaml  # Production overrides
-  traefik/           # Traefik configuration, certs, logs
-    traefik.yml      # Static config (entrypoints, providers)
-    dynamic/local/   # Default routing rules
-    dynamic/development/ # Development TLS and HMR routing
+  compose.yaml       # Базовая конфигурация Docker Compose
+  compose.dev.yaml   # Переопределения для разработки
+  compose.prod.yaml  # Переопределения для эксплуатации
+  traefik/           # Настройки Traefik, сертификаты, логи
+    traefik.yml      # Статическая конфигурация (точки входа, провайдеры)
+    dynamic/local/   # Правила маршрутизации по умолчанию
+    dynamic/development/ # Маршрутизация TLS и HMR для разработки
   varnish/
-    default.vcl      # Production cache policy
-    development.vcl  # Development pass mode
+    default.vcl      # Политика кеширования рабочего окружения
+    development.vcl  # Пропуск без кеширования при разработке
 ```
 
-## Development
+## Разработка
 
 ```bash
-npm run dev        # Start Vite dev server
-npm run types      # TypeScript validation
-npm run build      # Production build
-npm run test       # All unit tests (Vitest)
+npm run dev        # Запуск сервера разработки Vite
+npm run types      # Проверка типов TypeScript
+npm run build      # Сборка для эксплуатации
+npm run test       # Все модульные тесты (Vitest)
 ```
 
-## The HAIH Approach
+## Подход HAIH
 
-Every solution in this project follows a consistent evaluation model:
+Каждое решение в проекте оценивается по единой модели:
 
-1. **Purpose** — What need does it satisfy?
-2. **Capabilities** — What does it provide?
-3. **Requirements** — What does it demand?
-4. **Trade-offs** — Where is the cost justified?
-5. **Evidence** — What has been verified?
+1. **Назначение** — какую потребность оно удовлетворяет?
+2. **Возможности** — что оно предоставляет?
+3. **Требования** — что ему необходимо?
+4. **Компромиссы** — в каких случаях затраты оправданы?
+5. **Подтверждения** — что было проверено?
 
-This isn't methodology theater. It's how we actually build — and how AI assistants can make better recommendations when they understand _why_, not just _what_.
+Это не формальное следование методологии. Так мы действительно разрабатываем продукт. Такой подход помогает ИИ-ассистентам давать более подходящие рекомендации, когда они понимают не только _что_ делается, но и _почему_.
 
-## Status
+## Текущее состояние
 
-The site includes an illustrated homepage, Solutions and a blog. The current integration combines prerendering, hydration, SPA navigation, route bundles, request-time SSR and a GraphQL API. See the test commands below for reproducible checks; production cache behavior and development HMR require checks against their actual endpoints.
+Сайт включает иллюстрированную главную страницу, раздел решений и блог. Текущая интеграция объединяет предварительный рендеринг, гидратацию, SPA-навигацию, отдельные сборки маршрутов, SSR при обработке запроса и GraphQL API. Команды ниже позволяют воспроизвести проверки; поведение кеша рабочего окружения и HMR при разработке нужно проверять на реальных точках доступа.
 
-React Router's root middleware creates a request context for each HTTP request.
-Loaders obtain Apollo through `getRequestApollo(context)`: the first call creates
-the client, and subsequent calls reuse it, including concurrent loaders. Server
-rendering uses the same client through `RequestApolloContext`. Middleware stops
-the client when request handling finishes, including errors and redirects;
-clients and authorization headers are never shared between HTTP requests.
+Корневой промежуточный обработчик React Router создаёт контекст для каждого HTTP-запроса.
+Загрузчики получают Apollo через `getRequestApollo(context)`: первый вызов создаёт
+клиент, а последующие используют его повторно, в том числе в параллельных загрузчиках.
+Серверный рендеринг использует тот же клиент через `RequestApolloContext`.
+Промежуточный обработчик останавливает клиент после завершения обработки запроса,
+включая ошибки и перенаправления; клиенты и заголовки авторизации никогда не
+используются совместно разными HTTP-запросами.
 
-The root loader exposes one `initialApolloState` getter, evaluated when completed
-loader data is rendered or serialized, so it includes the results of parallel
-loaders. Page loaders return their page properties without separate cache
-snapshots. The browser merges the root snapshot into its persistent Apollo cache
-on hydration and SPA navigation. Context creation and cache inspection alone do
-not instantiate Apollo; the first loader or rendering consumer requesting the
-client does. Run `npx vitest run app/request/context.test.ts` to check lifecycle,
-request isolation, SSR reuse and SPA data serialization.
+Корневой загрузчик предоставляет единственный геттер `initialApolloState`, который
+вычисляется при рендеринге или сериализации готовых данных загрузчиков, поэтому
+включает результаты параллельных загрузчиков. Загрузчики страниц возвращают
+свойства своих страниц без отдельных снимков кеша. Браузер объединяет корневой
+снимок со своим постоянным кешем Apollo при гидратации и SPA-навигации.
+Создание контекста и просмотр кеша сами по себе не создают Apollo; это делает
+первый загрузчик или потребитель при рендеринге, запросивший клиент.
+Для проверки жизненного цикла, изоляции запросов, повторного использования при SSR
+и сериализации данных SPA выполните `npx vitest run app/request/context.test.ts`.
 
-## License
+## Лицензия
 
-See repository for license details.
+Сведения о лицензии смотрите в репозитории.
 
 ---
 
-**haih.site** — Requirement-driven development, demonstrated.
+**haih.site** — разработка на основе требований на практике.
 
-## Shared page layout
+## Общий макет страниц
 
-`app/components/Layout` provides the common Header, main landmark and Footer. The root document wraps route content and error fallbacks with this shell, so navigation stays available on 404 and route-error pages. Internal links use React Router, with active navigation and heading focus after forward navigation. A keyboard skip link targets the main content. The footer follows long content and sits at the bottom of short pages.
+`app/components/Layout` предоставляет общие Header, основную область содержимого и Footer. Корневой документ оборачивает содержимое маршрутов и представления ошибок этим макетом, поэтому навигация остаётся доступной на страницах 404 и ошибок маршрутов. Внутренние ссылки используют React Router, с выделением активного пункта навигации и переводом фокуса на заголовок при переходе вперёд. Ссылка для пропуска навигации с клавиатуры ведёт к основному содержимому. Подвал располагается после длинного содержимого и у нижнего края коротких страниц.
 
-The shell uses mobile-first Linaria styled components from colocated `styles.ts` modules. Type checking and production builds check different aspects of this integration; browser checks are needed to establish hydration, hot updates and navigation behavior.
+Макет использует стилизованные компоненты Linaria из расположенных рядом модулей `styles.ts`; стили сначала задаются для мобильных экранов. Проверка типов и сборка для эксплуатации проверяют разные аспекты этой интеграции; поведение гидратации, горячих обновлений и навигации нужно проверять в браузере.
 
-## Server monitoring
+## Мониторинг сервера
 
-The [monitoring runbook](docker/monitoring/README.md) describes the production-artifact preview, Grafana dashboard, internal per-site probes, request/application logs and optional email/Telegram alerts. The installation is shared by sites behind one Traefik and uses an explicit site registry. [Verification results](docker/monitoring/verification.md) distinguish the local checks from unverified production behavior. Request filtering is deferred.
+В [руководстве по мониторингу](docker/monitoring/README.md) описаны предварительный запуск собранного приложения, панель Grafana, внутренние проверки каждого сайта, логи запросов и приложения, а также необязательные уведомления по электронной почте и в Telegram. Установка общая для сайтов за одним Traefik и использует явно заданный реестр сайтов. [Результаты проверок](docker/monitoring/verification.md) разделяют локальные проверки и непроверенное поведение рабочего окружения. Фильтрация запросов отложена.
 
-## Wallet sign-in
+## Вход через кошелёк
 
-`/signin` supports passwords and MetaMask. Wallet authentication uses
-`ethAccountNonce` and `authEthAccount`, the existing `User`, `EthAccount` and
-`Token` tables, and the server's `JWT_SECRET`. Signatures are checked with
+`/signin` поддерживает пароли и MetaMask. Аутентификация через кошелёк использует
+`ethAccountNonce` и `authEthAccount`, существующие таблицы `User`, `EthAccount` и
+`Token`, а также серверный `JWT_SECRET`. Подписи проверяются с помощью
 [ethers verifyMessage](https://docs.ethers.org/v6/api/hashing/#verifyMessage).
-Challenges expire after five minutes and are consumed transactionally on use.
-No blockchain transaction or RPC service is required.
+Одноразовые запросы на подпись действуют пять минут и погашаются в транзакции
+при использовании. Транзакция в блокчейне или RPC-сервис не нужны.
 
-The registration policy matches the old site: an existing linked wallet can
-sign in regardless of `NEXT_PUBLIC_SITE_SIGNUP_STRATEGY`. A new wallet requires
-a valid stored `Referrer` JWT unless that variable is exactly `ANY`. Invalid,
-revoked or expired invitations are rejected even in `ANY` mode. Invitation links
-use `/signin?referrerToken=...`; no separate registration page is enabled.
-The server reads the policy at runtime. An authenticated user can link a new
-wallet, but cannot take a wallet from another account.
+Политика регистрации соответствует старому сайту: уже привязанный кошелёк позволяет
+войти независимо от `NEXT_PUBLIC_SITE_SIGNUP_STRATEGY`. Для нового кошелька нужен
+действительный сохранённый JWT `Referrer`, если значение этой переменной не равно
+строго `ANY`. Недействительные, отозванные и просроченные приглашения отклоняются
+даже в режиме `ANY`. Ссылки-приглашения используют `/signin?referrerToken=...`;
+отдельная страница регистрации не включена. Сервер читает политику во время работы.
+Авторизованный пользователь может привязать новый кошелёк, но не может забрать
+кошелёк у другой учётной записи.
 
-The auth tests use an isolated in-memory SQLite database and need no external service:
+Тесты аутентификации используют изолированную базу SQLite в памяти и не требуют внешнего сервиса:
 
 ```bash
 npx vitest run server/schema/types/EthAccount/auth.test.ts
@@ -252,134 +255,135 @@ npx vitest run app/Custom/components/Auth/MetaMaskAuth/index.test.tsx
 npx playwright test tests/e2e/signin.spec.ts --project=chromium --project=mobile-chromium
 ```
 
-Browser tests simulate the injected wallet and GraphQL responses. They verify
-session refresh, bearer headers, redirect and mobile layout; they do not replace
-a manual check with the real MetaMask extension.
+Браузерные тесты имитируют внедрённый кошелёк и ответы GraphQL. Они проверяют
+обновление сессии, заголовки Bearer, перенаправление и мобильную вёрстку;
+они не заменяют ручную проверку с настоящим расширением MetaMask.
 
-## Client certificate sign-in
+## Вход по клиентскому сертификату
 
-Each site can enable certificate sign-in alongside its existing sign-in methods. Traefik requests an optional client certificate during the site’s HTTPS handshake, so the browser may prompt when the site first opens. Visitors can continue without a certificate. The sign-in button sends a POST to the same site and receives the usual JWT. Linking a key sends the current Bearer token with the POST. The application checks the certificate’s public key against the site’s allowlist in `storage/client-certificate/authorized-keys.pem` before granting access.
+Каждый сайт может включить вход по сертификату наряду с существующими способами входа. Traefik запрашивает необязательный клиентский сертификат при установлении HTTPS-соединения с сайтом, поэтому браузер может показать запрос при первом открытии сайта. Посетители могут продолжить без сертификата. Кнопка входа отправляет POST на тот же сайт и получает обычный JWT. При привязке ключа вместе с POST отправляется текущий токен Bearer. Перед предоставлением доступа приложение проверяет открытый ключ сертификата по списку разрешённых ключей сайта в `storage/client-certificate/authorized-keys.pem`.
 
-- **Link a key to an existing account.** Sign in with any supported method, open your profile and link your certificate. Each key can be linked once per site. Attempting to link it again, even to the same account, returns HTTP 409.
-- **Sign in with a linked key.** Select certificate sign-in on `/signin` to access the linked account with its current permissions. Blocked accounts are denied access.
-- **Create the first administrator.** An allowlisted, unlinked key creates a passwordless account with `sudo = true` only if the database has no sudo user. If one already exists, the confirmation form still appears, but confirming (`force=true`) currently returns HTTP 403. Cancel, sign in to the intended account and link the key from its profile.
+- **Привязка ключа к существующей учётной записи.** Войдите любым поддерживаемым способом, откройте профиль и привяжите сертификат. Каждый ключ можно привязать на сайте только один раз. Повторная попытка привязки, даже к той же учётной записи, возвращает HTTP 409.
+- **Вход с привязанным ключом.** Выберите вход по сертификату на `/signin`, чтобы войти в связанную учётную запись с её текущими правами. Заблокированным учётным записям доступ запрещён.
+- **Создание первого администратора.** Разрешённый, но ещё не привязанный ключ создаёт учётную запись без пароля с `sudo = true` только в том случае, если в базе нет пользователя с правами sudo. Если такой пользователь уже есть, форма подтверждения всё равно появляется, но подтверждение (`force=true`) сейчас возвращает HTTP 403. Отмените действие, войдите в нужную учётную запись и привяжите ключ из её профиля.
 
-To reuse one certificate across sites, add its public key to each clone’s allowlist and link it separately on each site. Keep the private key on the client. In each clone’s `docker/.env`, set `VITE_CLIENT_CERT_LOGIN=true` before building and pass the same value to the running app (Compose loads it from `docker/.env`). To disable both certificate endpoints, set the value to `false` and recreate the app container. Rebuild the frontend to hide the buttons. Generate the route with `node scripts/configure-certificate-route.mjs --local` for development or pass `--host <site-domain>` and your HTTPS entry point for deployment. Install it on the Traefik instance that terminates TLS for that site. The standard Compose files support this setup. [Local setup, browser import and deployment guide (Russian)](docker/traefik/CERTIFICATE-LOGIN.md)
+Чтобы использовать один сертификат на нескольких сайтах, добавьте его открытый ключ в список разрешённых ключей каждого клона и привяжите его отдельно на каждом сайте. Закрытый ключ храните на клиенте. В `docker/.env` каждого клона задайте `VITE_CLIENT_CERT_LOGIN=true` перед сборкой и передайте то же значение работающему приложению (Compose загружает его из `docker/.env`). Чтобы отключить обе точки доступа для сертификатов, задайте `false` и пересоздайте контейнер приложения. Пересоберите клиентскую часть, чтобы скрыть кнопки. Для разработки сгенерируйте маршрут командой `node scripts/configure-certificate-route.mjs --local`, а для развёртывания передайте `--host <site-domain>` и вашу точку входа HTTPS. Установите маршрут на экземпляр Traefik, завершающий TLS для этого сайта. Стандартные файлы Compose поддерживают такую настройку. [Руководство по локальной настройке, импорту в браузер и развёртыванию](docker/traefik/CERTIFICATE-LOGIN.md)
 
-Run the server-side certificate sign-in tests with `npm test -- server/middleware/clientCertificate/index.test.ts`.
+Запустите серверные тесты входа по сертификату командой `npm test -- server/middleware/clientCertificate/index.test.ts`.
 
-## Tests
+## Тесты
 
-| Command                          | Scope and prerequisites                                                                                                                                            |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `npm test`                       | All unit tests; no build, Docker or running server required.                                                                                                       |
-| `npm run test:watch`             | Unit tests in watch mode.                                                                                                                                          |
-| `npm run test:coverage`          | Unit coverage in the terminal and `coverage/`.                                                                                                                     |
-| `npm run test:integration`       | Builds the site, then checks generated SEO/SSR output, monitoring configuration generation, statistics delivery and GraphQL metrics with isolated local listeners. |
-| `npm run test:integration:watch` | Watches integration tests; run `npm run build` first and rebuild after changing page/build inputs.                                                                 |
-| `npm run test:integration:stack` | HTTP/cache and monitoring checks against an already running production preview stack.                                                                              |
-| `npm run e2e`                    | Playwright: desktop and mobile Chromium; builds and starts the production Node server automatically.                                                               |
-| `npm run e2e:webkit`             | Only the WebKit browser project.                                                                                                                                   |
-| `npm run e2e:report`             | Opens the last Playwright HTML report.                                                                                                                             |
+| Команда                          | Область проверки и требования                                                                                                                                                         |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm test`                       | Все модульные тесты; сборка, Docker и работающий сервер не нужны.                                                                                                                     |
+| `npm run test:watch`             | Модульные тесты в режиме отслеживания изменений.                                                                                                                                      |
+| `npm run test:coverage`          | Покрытие модульными тестами в терминале и каталоге `coverage/`.                                                                                                                       |
+| `npm run test:integration`       | Собирает сайт, затем проверяет сгенерированные результаты SEO/SSR, генерацию конфигурации мониторинга, доставку статистики и метрики GraphQL с изолированными локальными слушателями. |
+| `npm run test:integration:watch` | Отслеживает изменения для интеграционных тестов; сначала выполните `npm run build` и повторяйте сборку после изменения исходных данных страниц или сборки.                            |
+| `npm run test:integration:stack` | Проверки HTTP, кеша и мониторинга на уже работающем стеке предварительного запуска рабочей сборки.                                                                                    |
+| `npm run e2e`                    | Playwright: настольный и мобильный Chromium; автоматически собирает и запускает сервер Node для эксплуатации.                                                                         |
+| `npm run e2e:webkit`             | Только браузерный проект WebKit.                                                                                                                                                      |
+| `npm run e2e:report`             | Открывает последний HTML-отчёт Playwright.                                                                                                                                            |
 
-Install Chromium once with `npx playwright install chromium` (Linux hosts may also need `npx playwright install-deps chromium`). WebKit is optional: install it with `npx playwright install webkit` and its Linux dependencies with `npx playwright install-deps webkit`, then run `npm run e2e:webkit`. Playwright owns port 4317 and fails if it is already occupied. To test an existing server or the real proxy/cache path, supply `PLAYWRIGHT_BASE_URL`; in that mode it does not build or start a server:
+Один раз установите Chromium командой `npx playwright install chromium` (на Linux также может понадобиться `npx playwright install-deps chromium`). WebKit необязателен: установите его командой `npx playwright install webkit`, а его зависимости для Linux — командой `npx playwright install-deps webkit`, затем выполните `npm run e2e:webkit`. Playwright использует порт 4317 и завершает запуск с ошибкой, если порт уже занят. Для проверки существующего сервера или реального пути через прокси и кеш задайте `PLAYWRIGHT_BASE_URL`; в этом режиме сборка и запуск сервера не выполняются:
 
 ```bash
 PLAYWRIGHT_BASE_URL=http://haih.localhost npm run e2e
 TEST_URL=http://haih.localhost MONITORING_TEST_URL=http://127.0.0.1:18080 GRAFANA_TEST_URL=http://127.0.0.1:13000 npm run test:integration:stack
 ```
 
-Stack tests require the [monitoring preview](docker/monitoring/README.md), its provisioned Grafana password file, and a `TEST_URL` routed through Traefik and Varnish. They are kept separate from local integration tests because they require external infrastructure. The suite fails when that infrastructure is unavailable; it does not silently skip checks. Failure injection and notification fixtures remain explicit `test:monitoring:failure` and `test:monitoring:notifications` commands and are never part of automatic test discovery.
+Тесты стека требуют [окружения предварительного запуска мониторинга](docker/monitoring/README.md), подготовленного для него файла пароля Grafana и `TEST_URL`, проходящего через Traefik и Varnish. Они отделены от локальных интеграционных тестов, поскольку требуют внешней инфраструктуры. Набор завершается с ошибкой, если инфраструктура недоступна; проверки не пропускаются молча. Внесение искусственных сбоев и сценарии уведомлений остаются явными командами `test:monitoring:failure` и `test:monitoring:notifications` и никогда не включаются в автоматический поиск тестов.
 
-Add unit tests under `tests/unit/`, or colocate `*.test.ts` / `*.test.tsx` in `app/` (`*.test.ts` in `server/`). Put local integration tests in `tests/integration/`, stack checks in `tests/stack/`, and browser `*.spec.ts` files in `tests/e2e/`. Each runner discovers its own suite. The default test environment is Node; individual component tests can opt into jsdom. Browser scenarios run in Playwright. Configuration entry points use CommonJS exports, while the shared factory uses a named ESM export. Coverage measures the configured SEO and server source scope; it is unit coverage, not combined integration/browser coverage.
+Добавляйте модульные тесты в `tests/unit/` либо размещайте `*.test.ts` / `*.test.tsx` рядом с кодом в `app/` (`*.test.ts` — в `server/`). Локальные интеграционные тесты размещайте в `tests/integration/`, проверки стека — в `tests/stack/`, а браузерные файлы `*.spec.ts` — в `tests/e2e/`. Каждый исполнитель находит свой набор тестов. По умолчанию используется окружение Node; отдельные тесты компонентов могут включать jsdom. Браузерные сценарии выполняются в Playwright. Точки входа конфигурации используют экспорты CommonJS, а общая фабрика — именованный экспорт ESM. Покрытие измеряется для настроенной области исходников SEO и сервера; это покрытие модульными тестами, без объединения с интеграционными и браузерными проверками.
 
-### Shared Vitest configuration
+### Общая конфигурация Vitest
 
-All three Vitest entry points call `createTestConfig` from `vitest.shared.mjs`.
-The factory loads `vite.config.ts` once per configuration and merges its aliases,
-plugins and compile-time definitions with the suite's test settings. Keep shared
-Vite resolution settings, including the `app` and `server` aliases, in
-`vite.config.ts`; TypeScript `paths` alone do not configure Vitest resolution.
-The React Router build plugin is disabled during Vitest runs by the existing
-`VITEST` guard in the Vite configuration.
+Все три точки входа Vitest вызывают `createTestConfig` из `vitest.shared.mjs`.
+Фабрика загружает `vite.config.ts` один раз для каждой конфигурации и объединяет
+его псевдонимы, плагины и определения времени компиляции с настройками набора тестов.
+Общие настройки разрешения модулей Vite, включая псевдонимы `app` и `server`,
+храните в `vite.config.ts`; сами по себе `paths` TypeScript не настраивают
+разрешение модулей Vitest. Плагин сборки React Router отключается при запуске
+Vitest существующей проверкой `VITEST` в конфигурации Vite.
 
-The factory owns the Node environment, in-memory SQLite default, mock restoration
-and default five-second test/hook timeouts. Entry points contain only suite-specific
-settings:
+Фабрика задаёт окружение Node, использование SQLite в памяти по умолчанию,
+восстановление моков и стандартные тайм-ауты тестов и хуков в пять секунд.
+Точки входа содержат только настройки конкретного набора:
 
-- `vitest.config.cjs`: unit and colocated tests, plus coverage settings.
-- `vitest.integration.config.cjs`: local integration tests, with 15-second timeouts.
-- `vitest.stack.config.cjs`: infrastructure tests, with 90-second timeouts.
+- `vitest.config.cjs`: модульные тесты и тесты рядом с кодом, а также настройки покрытия.
+- `vitest.integration.config.cjs`: локальные интеграционные тесты с тайм-аутами 15 секунд.
+- `vitest.stack.config.cjs`: инфраструктурные тесты с тайм-аутами 90 секунд.
 
-Each entry point supplies its own complete `test.include` list. Suites do not
-inherit one another's discovery patterns or coverage settings. Add common runner
-settings to the factory instead of duplicating them in the entry points.
+Каждая точка входа задаёт собственный полный список `test.include`. Наборы не
+наследуют друг у друга шаблоны поиска тестов и настройки покрытия. Общие настройки
+исполнителя добавляйте в фабрику, не дублируя их в точках входа.
 
-To rerun local integration tests against an existing build:
+Чтобы повторно запустить локальные интеграционные тесты на существующей сборке:
 
 ```bash
 npx vitest run -c vitest.integration.config.cjs
 ```
 
-Rebuild first when application or build inputs change. Loading the stack
-configuration does not verify that the external preview infrastructure works.
-Paid search-provider checks remain separate: `npm run test:search:live` requires
-provider credentials and is not included in any of these Vitest suites.
+После изменения приложения или исходных данных сборки сначала пересоберите проект.
+Загрузка конфигурации стека не подтверждает работоспособность внешней инфраструктуры
+предварительного запуска. Платные проверки поисковых провайдеров остаются отдельными:
+`npm run test:search:live` требует учётных данных провайдера и не входит ни в один
+из этих наборов Vitest.
 
-Playwright covers sign-in, chat administration, 404 responses and statistics
-collection/delivery, including SPA navigation and browser history. Tests use
-neutral fixtures or the current configuration rather than fixed site domains,
-branding, article titles or commit IDs. The default local server run does not
-prove Traefik/Varnish cache behavior or development HMR.
+Playwright проверяет вход, администрирование чата, ответы 404, сбор и доставку
+статистики, включая SPA-навигацию и историю браузера. Тесты используют нейтральные
+тестовые данные или текущую конфигурацию, а не фиксированные домены сайта,
+брендинг, заголовки статей или идентификаторы коммитов. Стандартный запуск локального
+сервера не подтверждает поведение кеша Traefik/Varnish или HMR при разработке.
 
-## Shared model client
+## Общий клиент моделей
 
-`server/llm/client.ts` exports a single `llmClient` for chat, web search and image generation. `complete({ model, messages, ... }, signal)` accepts the model and parameters for each request; the client does not retain history, the selected model or an AbortController between requests. It returns the original Response, preserving the stream, HTTP status, headers and error body for the calling code's existing diagnostics.
+`server/llm/client.ts` экспортирует единый `llmClient` для чата, веб-поиска и генерации изображений. `complete({ model, messages, ... }, signal)` принимает модель и параметры для каждого запроса; клиент не сохраняет историю, выбранную модель или AbortController между запросами. Он возвращает исходный Response, сохраняя поток, HTTP-статус, заголовки и тело ошибки для существующей диагностики вызывающего кода.
 
-All requests use the server-side `CHAT_API_BASE_URL` and `CHAT_API_KEY`. The URL is required: there is no implicit fallback to another provider. `CHAT_MODEL` specifies the chat model; `CHAT_WEB_SEARCH_MODEL` allows a different search model to be selected, falling back to the chat model when empty. `CHAT_WEB_SEARCH_TOOL` defaults to `openrouter:web_search` with `engine: native` when unset or empty. For Polza, set `CHAT_API_BASE_URL=https://polza.ai/api/v1`, use a Polza API key and set `CHAT_WEB_SEARCH_TOOL=polza:web_search`; this tool uses Polza search engines, so the client omits `engine: native`. See the [OpenRouter](https://openrouter.ai/docs/guides/features/server-tools/web-search) and [Polza](https://polza.ai/docs/gaidy/server-tools) tool documentation. Native search capabilities depend on the model and endpoint; OpenRouter may fall back to another engine for unsupported models. Image generation passes its own model from the incoming GraphQL request and uses the same URL and key; the former OPENROUTER_API_URL and OPENROUTER_API_KEY are no longer used. The legacy GraphQL provider name OPENROUTER is retained for client compatibility and does not determine the API URL.
+Все запросы используют серверные `CHAT_API_BASE_URL` и `CHAT_API_KEY`. URL обязателен: неявного переключения на другого провайдера нет. `CHAT_MODEL` задаёт модель чата; `CHAT_WEB_SEARCH_MODEL` позволяет выбрать другую модель для поиска, а при пустом значении используется модель чата. Если `CHAT_WEB_SEARCH_TOOL` не задан или пуст, по умолчанию используется `openrouter:web_search` с `engine: native`. Для Polza задайте `CHAT_API_BASE_URL=https://polza.ai/api/v1`, используйте API-ключ Polza и установите `CHAT_WEB_SEARCH_TOOL=polza:web_search`; этот инструмент использует поисковые системы Polza, поэтому клиент не передаёт `engine: native`. См. документацию инструментов [OpenRouter](https://openrouter.ai/docs/guides/features/server-tools/web-search) и [Polza](https://polza.ai/docs/gaidy/server-tools). Возможности нативного поиска зависят от модели и точки доступа; OpenRouter может использовать другую поисковую систему для неподдерживаемых моделей. Генерация изображений передаёт собственную модель из входящего GraphQL-запроса и использует те же URL и ключ; прежние OPENROUTER_API_URL и OPENROUTER_API_KEY больше не используются. Старое имя провайдера GraphQL OPENROUTER сохранено для совместимости клиентов и не определяет URL API.
 
-## Database
+## База данных
 
-The server uses Knex with SQLite (better-sqlite3) or PostgreSQL (pg). Select the
-backend through environment variables; application queries and APIs are shared.
+Сервер использует Knex с SQLite (better-sqlite3) или PostgreSQL (pg).
+СУБД выбирается через переменные окружения; запросы приложения и API общие.
 
-SQLite, the default for small sites:
+SQLite — вариант по умолчанию для небольших сайтов:
 
 ```dotenv
 DATABASE_CLIENT=sqlite
 DATABASE_FILENAME=server/database/data/database.sqlite
 ```
 
-PostgreSQL, with Node running on the host and database port 5432 published:
+PostgreSQL, когда Node работает на хосте, а порт базы 5432 опубликован:
 
 ```dotenv
 DATABASE_CLIENT=pg
 DATABASE_URL=postgresql://postgres:password@127.0.0.1:5432/postgres
 ```
 
-For Node running inside Docker, use the actual full database container name,
-for example `website_template-supabase-1`, instead of `127.0.0.1`. Match the
-credentials and database name to the PostgreSQL container configuration and
-URL-encode special characters in credentials. The Docker environment examples
-are in `docker/.env.example`. `DATABASE_URL` is required only for `pg`;
-`DATABASE_FILENAME` applies only to SQLite.
+Если Node работает внутри Docker, используйте фактическое полное имя контейнера
+базы данных, например `website_template-supabase-1`, вместо `127.0.0.1`.
+Учётные данные и имя базы должны соответствовать конфигурации контейнера PostgreSQL;
+специальные символы в учётных данных кодируйте для URL. Примеры окружения Docker
+находятся в `docker/.env.example`. `DATABASE_URL` обязателен только для `pg`;
+`DATABASE_FILENAME` применяется только к SQLite.
 
-Changing the backend does not transfer data. To start with a clean PostgreSQL
-installation, start its container, set the environment, run `npm run db:migrate`,
-and restart the app. If the PostgreSQL database does not exist, the app connects
-to the maintenance database `postgres` with the same credentials and creates the
-configured database before migrations. The role needs CONNECT access to `postgres`
-and CREATEDB (or superuser) privileges. Existing databases do not require CREATEDB.
-Authentication and other connection failures are reported without attempting creation.
-The HTTP server also applies pending migrations before
-accepting requests. Both commands must run from the project root. In Docker,
-run `npm run db:migrate` inside the app container using its configured environment.
+Смена СУБД не переносит данные. Для чистой установки PostgreSQL запустите её контейнер,
+задайте окружение, выполните `npm run db:migrate` и перезапустите приложение.
+Если базы PostgreSQL ещё нет, приложение подключается к служебной базе `postgres`
+с теми же учётными данными и создаёт настроенную базу перед миграциями.
+Роли нужны доступ CONNECT к `postgres` и право CREATEDB либо права суперпользователя.
+Для существующих баз CREATEDB не требуется. Ошибки аутентификации и другие ошибки
+подключения сообщаются без попытки создания базы. HTTP-сервер также применяет
+ожидающие миграции до начала приёма запросов. Обе команды нужно запускать из корня
+проекта. В Docker выполняйте `npm run db:migrate` внутри контейнера приложения
+с его настроенным окружением.
 
-### Migrations
+### Миграции
 
-Migrations live in `server/database/migrations` as named `.mjs` files with
-`up` and `down` functions. Knex records each completed filename in
-`knex_migrations`; there is no single application schema version.
+Миграции находятся в `server/database/migrations` в именованных файлах `.mjs`
+с функциями `up` и `down`. Knex записывает имя каждого выполненного файла
+в `knex_migrations`; единой версии схемы приложения нет.
 
 ```bash
 npm run db:make -- add_user_settings
@@ -387,125 +391,214 @@ npm run db:migrate
 npm run db:migrations
 ```
 
-Write schema changes with the Knex schema builder and support both backends.
-The initial migration demonstrates date defaults and JSON validation where SQL
-differs. Migration files are shipped in the production image. New files created
-in a running container must also be saved in the source repository.
+Изменения схемы пишите с помощью построителя схем Knex и поддерживайте обе СУБД.
+Начальная миграция демонстрирует значения дат по умолчанию и валидацию JSON
+в местах, где SQL различается. Файлы миграций включаются в образ для эксплуатации.
+Новые файлы, созданные в работающем контейнере, также необходимо сохранять
+в репозитории исходного кода.
 
-Keep completed migrations unchanged and present in the repository. After merging
-an upstream change, `db:migrate` applies every missing migration, including a
-file dated earlier than migrations already completed locally. Filenames must be
-unique across forks; use a descriptive feature name with the generated timestamp.
-Knex orders pending files by name, not by a dependency graph. Conflicting schema
-changes or dependencies across branches must be resolved during the merge, and
-both an existing database upgrade and a clean installation should be checked.
-The initial migration intentionally refuses rollback to avoid dropping all data.
+Сохраняйте выполненные миграции в репозитории без изменений. После слияния
+изменений из исходного репозитория `db:migrate` применяет все отсутствующие
+миграции, включая файлы с датой раньше уже выполненных локально миграций.
+Имена файлов должны быть уникальными между форками; используйте содержательное
+название изменения вместе со сгенерированной временной меткой. Knex упорядочивает
+ожидающие файлы по имени, а не по графу зависимостей. Конфликтующие изменения
+схемы и зависимости между ветками нужно разрешать при слиянии, проверяя как
+обновление существующей базы, так и чистую установку. Начальная миграция
+намеренно запрещает откат, чтобы не удалить все данные.
 
-Existing SQLite databases use the frozen `server/database/schema.ts` upgrader
-once to reach legacy version 9, then the initial Knex migration adopts their
-schema and preserves records. Add all future changes as migration files; do not
-increment `PRAGMA user_version` or extend the legacy upgrader.
+Существующие базы SQLite однократно используют зафиксированный механизм обновления
+`server/database/schema.ts`, чтобы достичь прежней версии 9; затем начальная
+миграция Knex принимает их схему, сохраняя записи. Все дальнейшие изменения
+добавляйте файлами миграций; не увеличивайте `PRAGMA user_version` и не расширяйте
+старый механизм обновления.
 
-SQLite connections enable WAL, foreign keys and a five-second busy timeout.
-Dates are stored as Unix milliseconds in SQLite and timestamptz in PostgreSQL;
-both return JavaScript Dates. JSON payloads remain validated text, and numeric
-and boolean results are normalized where the drivers differ. Operations that
-need to serialize a read followed by a write acquire a SQLite writer lock or a
-PostgreSQL transaction advisory lock.
+Соединения SQLite включают WAL, внешние ключи и тайм-аут ожидания занятой базы
+в пять секунд. Даты хранятся как миллисекунды Unix в SQLite и timestamptz
+в PostgreSQL; обе СУБД возвращают объекты Date JavaScript. Данные JSON остаются
+проверяемым текстом, а числовые и логические результаты нормализуются там,
+где поведение драйверов различается. Операции, которым необходимо последовательно
+выполнить чтение и запись без вмешательства других операций, получают блокировку
+записи SQLite или рекомендательную блокировку транзакции PostgreSQL.
 
-SQLite defaults to `server/database/data/database.sqlite`; relative paths resolve
-from the working directory. Docker Compose uses `/app/server/database/data/database.sqlite`
-and mounts the data directory, which must be writable by the container user
-(UID 1000 in the production image). Data and SQLite journal files are excluded
-from Git and Docker build contexts. Back up SQLite with its backup API, or stop
-the server before copying the entire data directory.
+По умолчанию SQLite использует `server/database/data/database.sqlite`;
+относительные пути разрешаются от рабочего каталога. Docker Compose использует
+`/app/server/database/data/database.sqlite` и монтирует каталог данных,
+который должен быть доступен для записи пользователю контейнера
+(UID 1000 в образе для эксплуатации). Данные и файлы журналов SQLite исключены
+из Git и контекстов сборки Docker. Создавайте резервную копию SQLite через
+её API резервного копирования либо остановите сервер перед копированием
+всего каталога данных.
 
-The normal test suite uses isolated in-memory SQLite databases. To also run the
-PostgreSQL contract check, supply `TEST_DATABASE_URL` to a PostgreSQL role allowed
-to create databases and temporary test roles, and run
+Обычный набор тестов использует изолированные базы SQLite в памяти.
+Чтобы дополнительно проверить контракт PostgreSQL, задайте `TEST_DATABASE_URL`
+с учётными данными роли PostgreSQL, которой разрешено создавать базы данных
+и временные тестовые роли, и выполните
 `npx vitest run server/database/postgres.test.ts`.
-It creates and drops its own randomly named database; it does not migrate the
-database named in that URL.
+Тест создаёт и удаляет собственную базу со случайным именем; он не применяет
+миграции к базе, указанной в этом URL.
 
-### First administrator
+### Первый администратор
 
-Run from the project directory:
+Выполните из каталога проекта:
 
 ```bash
 ADMIN_PASSWORD='your-password' npm run user:create-admin -- --username admin --email admin@example.com
 ```
 
-Alternatively, use `--password-stdin` to read the password from standard input.
-The script creates an active user with `sudo = true` and a bcrypt password hash.
-It initializes a new database if necessary. If **any user** already exists,
-it exits with code 1 without adding or changing users. The emptiness check and
-insert run in one transaction with a write lock (SQLite) or an advisory lock
-(PostgreSQL), including for concurrent CLI runs.
-`--database <path>` overrides the SQLite file for isolated environments;
-`--help` lists the options. The script uses Node.js 22.22.3+ and is also included
-in the production image (`npm run user:create-admin -- --username admin`).
+Также можно использовать `--password-stdin`, чтобы прочитать пароль из стандартного
+ввода. Скрипт создаёт активного пользователя с `sudo = true` и хешем пароля bcrypt.
+При необходимости он инициализирует новую базу. Если уже существует **хотя бы один
+пользователь**, скрипт завершается с кодом 1, не добавляя и не изменяя пользователей.
+Проверка отсутствия пользователей и вставка выполняются в одной транзакции
+с блокировкой записи (SQLite) или рекомендательной блокировкой (PostgreSQL),
+в том числе при параллельных запусках из командной строки.
+`--database <path>` переопределяет файл SQLite для изолированных окружений;
+`--help` выводит список параметров. Скрипт использует Node.js 22.22.3+ и также
+включён в образ для эксплуатации (`npm run user:create-admin -- --username admin`).
 
-### Chat persistence
+### Хранение данных чата
 
-Chat dialogues, messages (including tool logs, errors, token usage and page URLs),
-and the signing key use the same configured database. The REST and GraphQL APIs
-and guest token format are unchanged. Each appended message and its index data
-are stored in a single row; history is read in insertion order. Tool messages
-remain visible only in administrator history and are excluded from the message index.
-Unknown success status and missing usage counters remain distinct from false and zero.
+Диалоги чата, сообщения (включая логи инструментов, ошибки, расход токенов и URL
+страниц) и ключ подписи используют ту же настроенную базу данных.
+REST и GraphQL API, а также формат гостевых токенов не изменены.
+Каждое добавленное сообщение и данные его индекса хранятся в одной строке;
+история читается в порядке вставки. Сообщения инструментов остаются видимыми
+только в истории администратора и исключаются из индекса сообщений.
+Неизвестный статус успешности и отсутствующие счётчики расхода сохраняют
+отличие от false и нуля.
 
-## Server-side feedback form
+## Серверная обработка формы обратной связи
 
-The `submitFeedback(data: { token, contacts, message })` mutation is defined in `server/schema/types/ChatMessage/resolvers/submitFeedback.ts`. Message processing and SMTP delivery are implemented in `server/schema/types/ChatMessage/helpers/feedback.ts`, without app dependencies. Contacts are accepted as free text. The client requests a dialogue token immediately before submission, after a five-second delay from opening the form.
+Мутация `submitFeedback(data: { token, contacts, message })` определена в `server/schema/types/ChatMessage/resolvers/submitFeedback.ts`. Обработка сообщений и доставка по SMTP реализованы в `server/schema/types/ChatMessage/helpers/feedback.ts` без зависимостей от app. Контакты принимаются в виде свободного текста. Клиент запрашивает токен диалога непосредственно перед отправкой, после пятисекундной задержки с момента открытия формы.
 
-Email uses the shared `MAIL_FROM`, `MAIL_TO`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_REQUIRE_TLS` settings from `docker/.env.example`. If `MAIL_TO` is not set, notifications go to `MAIL_FROM`. The shared `sendEmail` function in `ChatMessage/helpers/sendEmail.ts` accepts the recipient, subject, and text. Without `SMTP_HOST`, it uses the recipient's MX records. Disable required TLS for local MailHog. The `FEEDBACK_*` variables are no longer needed. The site address comes from Origin, falling back to the request protocol and Host, and is used only in the notification text.
+Почта использует общие настройки `MAIL_FROM`, `MAIL_TO`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` и `SMTP_REQUIRE_TLS` из `docker/.env.example`. Если `MAIL_TO` не задан, уведомления отправляются на `MAIL_FROM`. Общая функция `sendEmail` в `ChatMessage/helpers/sendEmail.ts` принимает получателя, тему и текст. Без `SMTP_HOST` она использует MX-записи получателя. Для локального MailHog отключите обязательный TLS. Переменные `FEEDBACK_*` больше не нужны. Адрес сайта берётся из Origin, а при его отсутствии — из протокола запроса и Host; он используется только в тексте уведомления.
 
-Form success means the message was saved in the dialogue. Email notification starts after saving and does not delay the visitor's response. Missing email configuration and SMTP errors are logged on the server but do not turn an accepted submission into a failure. Delivery has no queue or automatic retries; stopping the process can interrupt it, while the saved dialogue remains available in the admin panel. Retrying with the same token creates neither another message nor another notification, including after a process restart.
+Успешная отправка формы означает, что сообщение сохранено в диалоге. Отправка уведомления по электронной почте начинается после сохранения и не задерживает ответ посетителю. Отсутствие настроек почты и ошибки SMTP записываются в серверные логи, но не превращают принятый запрос в ошибку. Доставка не имеет очереди и автоматических повторов; остановка процесса может её прервать, при этом сохранённый диалог остаётся доступен в панели администратора. Повтор с тем же токеном не создаёт ни нового сообщения, ни нового уведомления, в том числе после перезапуска процесса.
 
-Tokens are signed with the chat key; dialogues are stored in SQLite. Rate limits are kept in process memory and apply to the connection address. Behind a proxy, visitors may share these limits: the service does not trust arbitrary X-Forwarded-For values.
+Токены подписываются ключом чата; диалоги хранятся в SQLite. Ограничения частоты запросов хранятся в памяти процесса и применяются к адресу соединения. За прокси эти ограничения могут быть общими для нескольких посетителей: сервис не доверяет произвольным значениям X-Forwarded-For.
 
-### Feedback dialogues
+### Диалоги обратной связи
 
-The existing `AppContext` controls opening the form through `isFeedbackOpen`, `openFeedback`, and `closeFeedback`. `FeedbackForm` is rendered in Layout; fields, timing, and submission remain inside the form. On opening, `useEffect` records the opening time in component state. Before five seconds have elapsed, submission shows an alert with the remaining time without calling the API. After five seconds, the form obtains `createChatToken(data: { channel: feedback })` and immediately calls `submitFeedback`. Retries within the same open form reuse the token. This is a simple client-side delay; the server still validates the token signature, channel, and submission rate.
+Существующий `AppContext` управляет открытием формы через `isFeedbackOpen`, `openFeedback` и `closeFeedback`. `FeedbackForm` отображается в Layout; поля, отслеживание времени и отправка остаются внутри формы. При открытии `useEffect` записывает время открытия в состояние компонента. Пока не прошло пять секунд, попытка отправки показывает предупреждение с оставшимся временем без вызова API. После пяти секунд форма получает `createChatToken(data: { channel: feedback })` и сразу вызывает `submitFeedback`. Повторные попытки в той же открытой форме используют прежний токен. Это простая задержка на клиенте; сервер по-прежнему проверяет подпись токена, канал и частоту отправки.
 
-A dialogue has a `chat` or `feedback` channel, exposed in the API and admin card. SQLite migration version 3 assigns `chat` to existing dialogues while preserving history. The form message and contacts are saved as a `user` message without an agent reply before email delivery. SMTP failure does not delete the message; retries with the same token do not duplicate it. Dialogue tokens do not expire, matching existing chat tokens. The separate `prepareFeedback` mutation is no longer used.
+Диалог имеет канал `chat` или `feedback`, доступный в API и карточке администратора. Миграция SQLite версии 3 присваивает существующим диалогам `chat`, сохраняя историю. Сообщение формы и контакты сохраняются как сообщение `user` без ответа агента до отправки почты. Ошибка SMTP не удаляет сообщение; повторы с тем же токеном не создают дубликаты. Токены диалогов не имеют срока действия, как и существующие токены чата. Отдельная мутация `prepareFeedback` больше не используется.
 
-## Error propagation contract
+## Контракт передачи ошибок
 
-At every server stage, failures must have readable, actionable messages. Raise failures with `throw new Error(message)` and preserve the original error message across HTTP, streaming, and GraphQL boundaries. GraphQL must expose it in `errors[].message`; do not replace an available server explanation with a generic HTTP status or an unspecified internal error. Keep existing diagnostic logs and error causes.
+На каждом этапе серверной обработки сбои должны сопровождаться понятными сообщениями, позволяющими принять меры. Выбрасывайте ошибки через `throw new Error(message)` и сохраняйте исходное сообщение при передаче через HTTP, потоковые ответы и GraphQL. GraphQL должен возвращать его в `errors[].message`; не заменяйте доступное серверное объяснение общим HTTP-статусом или неопределённой внутренней ошибкой. Сохраняйте существующие диагностические логи и причины ошибок.
 
-Domain validation belongs to the service that owns the operation. The GraphQL chat proxy forwards inputs accepted by the GraphQL schema without adding token or message validation. `/api/chat` validates the required token regardless of the caller and distinguishes a missing or blank token from an invalid token. The browser obtains a token automatically through `createChatToken` before sending its first message; GraphQL callers must obtain and supply it themselves. A required GraphQL `String!` rejects omitted or null values but permits an empty string, which the chat service must reject.
+Предметная валидация принадлежит сервису, отвечающему за операцию. GraphQL-прокси чата передаёт входные данные, принятые схемой GraphQL, без дополнительной проверки токена или сообщения. `/api/chat` проверяет обязательный токен независимо от вызывающей стороны и различает отсутствующий или пустой токен и недействительный токен. Браузер автоматически получает токен через `createChatToken` перед отправкой первого сообщения; вызывающая сторона GraphQL должна получить и передать его самостоятельно. Обязательный GraphQL-тип `String!` отклоняет отсутствующие значения и null, но допускает пустую строку, которую должен отклонить сервис чата.
 
-The proxy must preserve errors returned before streaming as well as errors carried inside the stream. Interrupted streams must fail instead of returning a successful partial response. Use a transport-specific fallback only when no readable server message is available. Tests must verify the messages received by callers, including missing, blank, and invalid chat tokens and HTTP/stream failures.
+Прокси должен сохранять как ошибки, возвращённые до начала потока, так и ошибки внутри него. Прерванные потоки должны завершаться ошибкой, а не успешным частичным ответом. Используйте запасное сообщение конкретного транспорта только при отсутствии понятного сообщения сервера. Тесты должны проверять сообщения, получаемые вызывающей стороной, включая отсутствующие, пустые и недействительные токены чата, а также ошибки HTTP и потоков.
 
 Языковые правила сайта, документации и сообщений коммитов приведены в разделе «Язык проекта».
 
-Transport errors raised before the chat returns an HTTP response (such as invalid header characters or a connection failure) are logged in full on the server. The GraphQL caller receives a readable general request error instead of low-level fetch details. Keep the chat token in the Authorization header, not in the JSON request body. Errors returned by the chat itself retain their original messages.
+Транспортные ошибки, возникшие до получения HTTP-ответа от чата (например, недопустимые символы в заголовке или сбой соединения), полностью записываются в серверные логи. Вызывающая сторона GraphQL получает понятную общую ошибку запроса вместо низкоуровневых подробностей fetch. Передавайте токен чата в заголовке Authorization, а не в JSON-теле запроса. Ошибки, возвращённые самим чатом, сохраняют исходные сообщения.
 
-### User pages
+### Страницы пользователей
 
-`/users` and `/users/:userId` use React Router loaders, Apollo operations from
-`app/gql/src`, and colocated Linaria styles. The `/signup` page supports password registration with the configured invitation
-policy and `USER_DEFAULT_STATUS` (default `active`). Profiles support editing, avatars,
-Markdown, administrator status changes and invitations. Invitations use
-`REFERRER_TOKEN_TTL` (default `1h`) and the existing `JWT_SECRET`.
+`/users` и `/users/:userId` используют загрузчики React Router, операции Apollo из
+`app/gql/src` и расположенные рядом стили Linaria. Страница `/signup` поддерживает
+регистрацию по паролю с настроенной политикой приглашений и `USER_DEFAULT_STATUS`
+(по умолчанию `active`). Профили поддерживают редактирование, аватары, Markdown,
+изменение статуса администратором и приглашения. Приглашения используют
+`REFERRER_TOKEN_TTL` (по умолчанию `1h`) и существующий `JWT_SECRET`.
 
-SQLite schema version 4 adds the transaction ledger, unique blockchain payment
-records, and a Telegram account identifier. Existing users and balances are
-preserved. The migration runs when the database opens.
+Версия 4 схемы SQLite добавляет журнал транзакций, уникальные записи платежей
+в блокчейне и идентификатор учётной записи Telegram. Существующие пользователи
+и балансы сохраняются. Миграция выполняется при открытии базы.
 
-Optional integrations retain the original environment names:
+Необязательные интеграции сохраняют исходные имена переменных окружения:
 
-- `NEXT_PUBLIC_CRYPTO_ENABLED=true` exposes balances, transfers and top-ups.
-- `CRYPTO_CHAIN_ID`, `CRYPTO_RPC_URL`, `CRYPTO_USDT_CONTRACT_ADDRESS` and
-  `PAYMENT_RECIPIENT_ADDRESS` configure USDT payments (six token decimals).
-  The wallet switches to the chain returned by the server. Credits require two
-  confirmations, the configured token and recipient, and the linked sender.
-- `NEXT_PUBLIC_TELEGRAM_BOT_NAME` exposes the Telegram login widget;
-  `TELEGRAM_BOT_TOKEN` stays on the server and verifies its signed payload.
-  The bot's login domain must be configured in Telegram.
+- `NEXT_PUBLIC_CRYPTO_ENABLED=true` открывает доступ к балансам, переводам и пополнениям.
+- `CRYPTO_CHAIN_ID`, `CRYPTO_RPC_URL`, `CRYPTO_USDT_CONTRACT_ADDRESS` и
+  `PAYMENT_RECIPIENT_ADDRESS` настраивают платежи USDT (шесть десятичных знаков токена).
+  Кошелёк переключается на сеть, возвращённую сервером. Для зачисления нужны два
+  подтверждения, настроенные токен и получатель, а также привязанный отправитель.
+- `NEXT_PUBLIC_TELEGRAM_BOT_NAME` включает виджет входа через Telegram;
+  `TELEGRAM_BOT_TOKEN` остаётся на сервере и используется для проверки подписанных
+  данных виджета. Домен входа бота должен быть настроен в Telegram.
 
-Public flags are embedded during the Vite build; rebuild after changing them.
-Pending top-up details are retained in the browser so verification can be retried
-without sending another payment. These integrations require configured services;
-local tests do not establish successful live wallet or Telegram login behavior.
+Публичные флаги встраиваются при сборке Vite; после их изменения нужна пересборка.
+Данные ожидающего пополнения сохраняются в браузере, чтобы можно было повторить
+проверку без повторной отправки платежа. Этим интеграциям нужны настроенные сервисы;
+локальные тесты не подтверждают успешную работу с реальным кошельком или входа
+через Telegram.
+
+## Голосовой интерфейс `/ai`
+
+`VITE_CHAT_AGENT=codex` выбирает существующий транспорт основного агента. Его
+текстовая модель может работать через ChatGPT, OpenRouter или другой совместимый
+профиль Codex. `VOICE_MODE` независимо выбирает голосовой путь на сервере:
+
+- `off` (по умолчанию): текстовый чат;
+- `realtime`: перенесённый нативный голос Codex; требуется совместимый
+  ChatGPT-профиль, агрегатор автоматически на него не переключается;
+- `messages`: живое распознавание → текст тому же агенту → выборочная озвучка
+  через OpenRouter. Отдельная разговорная модель реального времени не создаётся.
+
+Для `messages` нужны `CHAT_API_KEY` OpenRouter, `TRANSCRIBE_AUTH_FILE` с действующей
+ChatGPT-авторизацией и `ffmpeg`. `SPEECH_MODEL` по умолчанию
+`qwen/qwen3-tts-1.7b`, `SPEECH_VOICE=ryan`. В Compose авторизация распознавания
+монтируется отдельно из `docker/codex/home/default/auth.json` только для чтения;
+выбор OpenRouter через `CODEX_HOME_PATH` не подменяет её. Переменные Compose
+задаются в `docker/.env`, при локальном запуске — в окружении или корневом `.env`.
+Изменение `VITE_CHAT_AGENT` требует пересборки фронта; `VOICE_MODE` — перезапуска
+сервера. Ни один секрет не передаётся браузеру.
+
+Кнопка «Записать голос» открывает живой канал распознавания PCM16, моно, 24 кГц.
+«Остановить запись» оставляет окончательный текст в поле; основная кнопка
+«Отправить» останавливает запись и ждёт финализации. Её можно нажать и во время
+финализации. Внутренний непрерывный режим (не выведен отдельной кнопкой в чат) отправляет завершённые сегменты автоматически,
+когда серверный VAD сообщает конец речи и получен окончательный текст.
+**Этот автоматический сценарий пока не подтверждён текущим сервисом:** в реальных
+прогонах `speech.stopped` и `transcript.final` пришли только после `session.close`,
+даже после шести секунд цифровой тишины. Запрос `buffered` сервер заменил на
+`streaming_sse`. Живой захват/предварительный текст работают, но для отправки
+может потребоваться кнопка остановки. Не считать это готовой заменой Realtime.
+По решению пользователя дополнительный VAD и исследование финализации отложены. Новое
+начало речи останавливает аудио и отменяет старый TTS. Уточнение идёт в
+`turn/steer` того же контекста; это не автоматическая отмена всей основной задачи.
+Явная кнопка «Остановить ответ» использует `turn/interrupt`.
+
+Агент вызывает `speak()` перед выбранным речевым сообщением. Оно поступает
+дельтами; законченные порции разделяются строкой `---` с пустой строкой перед ней.
+`remark-parse` и `remark-gfm` выделяют границы и исключают код, таблицы, ссылки и
+техническую разметку. Каждая порция сразу направляется в TTS. MP3 передаётся по
+авторизованному WebSocket и воспроизводится через MediaSource до окончания
+получения порции. При перебивании незавершённого речевого сообщения намерение
+озвучить его исправленную версию сохраняется после подтверждения нового ввода
+Codex. Старый элемент и старое поколение больше не озвучиваются. Завершение текстового
+хода не обрывает очередь уже начатого аудио. Браузер возвращает события начала,
+окончания и прерывания; они не доказывают, что человек услышал звук, и не дают
+точной границы слов.
+
+Для произвольного файла есть отдельная GraphQL-мутация
+`transcribeAudio(data: { file: Upload!, language: String })`. Используйте
+сгенерированный `TranscribeAudioDocument`, multipart и заголовки `dialog-token`
+и `Apollo-Require-Preflight: true`. Новая область доступа `codexChatToken` проверяет подписанный
+токен обычного Codex-чата, включая анонимного посетителя; прежняя область доступа `chatToken` имеет
+прежнее значение. Токен получается существующим `POST /api/codex/token`.
+Результат содержит `text`, `language`, `durationSeconds`, `completed`; потокового
+GraphQL-ответа нет. Ограничения: 25 МиБ, 240 секунд, одна транскрибация на сессию
+и четыре одновременно на процесс веб-сервера. Временный файл удаляется при
+результате, ошибке и отмене. Веб-серверу не требуется создавать диалог агента для
+распознавания. Прокси должен пропускать голосовой WebSocket и ждать файловый ответ
+до 360 секунд; соответствующие правила добавлены в Varnish.
+
+Та же функция доступна локально через `npm run transcribe:audio -- /absolute/audio.mp3`
+и MCP stdio `npm run transcribe:mcp` (инструмент `transcribe_audio`, аргументы
+`filePath`, `language`). MCP запускается отдельно в Node-окружении с ffmpeg и
+авторизацией; он не подключён автоматически к веб-агенту и не даёт анонимному
+посетителю читать серверные пути. Файлы в веб-интерфейсе передаются через Upload.
+
+Проверено локально: сборка, типы, проверка линтером, основные архитектурные тесты; реальное
+OpenRouter TTS и ChatGPT STT; GraphQL Upload и запись через AudioWorklet в
+Chromium с искусственным микрофоном; `speak` и уточнение посреди ответа на
+закреплённом Codex с OpenRouter. Ручное прослушивание, настоящий микрофон,
+Safari/iOS, Polza и полный прокси рабочего окружения не проверены. Система пока
+экспериментальная. Старые контексты, созданные без динамических инструментов, продолжаются
+без скрытого пересоздания, но `speak` в них может отсутствовать. Новые текстовые
+контексты уже регистрируют инструмент. Авторизация внутреннего сервиса диктовки ChatGPT
+и его протокол могут измениться; это не публичный STT-контракт OpenRouter.
